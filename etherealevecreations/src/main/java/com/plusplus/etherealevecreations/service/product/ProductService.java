@@ -1,12 +1,16 @@
 package com.plusplus.etherealevecreations.service.product;
 
 import com.plusplus.etherealevecreations.entity.Product;
+import com.plusplus.etherealevecreations.request.AddProductRequest;
+import com.plusplus.etherealevecreations.request.ProductUpdateRequest;
 
 import java.util.List;
 
 public interface ProductService {
 
-    Product addProduct(Product product);
+    Product addProduct(AddProductRequest product);
+    Product updateProduct(ProductUpdateRequest product, Long Id);
+
     List<Product> getAllProducts();
     Product getProductById(Long id);
     void deleteProductById(Long id);
