@@ -44,9 +44,9 @@ public class ImageServiceImpl implements ImageService{
     }
 
     @Override
-    public Image saveImage(List<MultipartFile> files, Long productId) {
+    public List<ImageDTO> saveImages(List<MultipartFile> files, Long productId) {
         Product product=productService.getProductById(productId);
-        List<ImageDTO> imageDTOS= new ArrayList<>();
+        List<ImageDTO> savedImageDTO= new ArrayList<>();
         for (MultipartFile file:files){
          try {
 
@@ -60,11 +60,16 @@ public class ImageServiceImpl implements ImageService{
              String downloadUrl=builddownloadUrl +image.getId() ;
              image.setDownloadUrl(downloadUrl);
             Image savedImage=  imageRepository.save(image);
-            savedImage.setDownloadUrl("/api/v1/images/image/download/" +savedImage.getId());
+            savedImage.setDownloadUrl(builddownloadUrl +savedImage.getId());
              imageRepository.save(savedImage);
 
-
+             ImageDTO imageDTO= new ImageDTO();
+             imageDTO.setId(savedImage.getId());
+             imageDTO.setImageName(savedImage.getFileName());
+             imageDTO.setDownloadUrl(savedImage.getDownloadUrl());
+             savedImageDTO.add(imageDTO);
          }catch (IOException | SQLException e){
+             throw  new RuntimeException(e.getMessage());
 
 
 
@@ -73,7 +78,7 @@ public class ImageServiceImpl implements ImageService{
         }
 
 
-        return null;
+        return savedImageDTO;
     }
 
     @Override
