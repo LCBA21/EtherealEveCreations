@@ -26,7 +26,7 @@ public class ImageController {
     private final ImageService imageService;
 
 
-    @PostMapping("/uplod")
+    @PostMapping("/Upload")
     public ResponseEntity<ApiResponse> saveImage(@RequestParam
     List<MultipartFile> files,@RequestParam Long productId){
         try {
