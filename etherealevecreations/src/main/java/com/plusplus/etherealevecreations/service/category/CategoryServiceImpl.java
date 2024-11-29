@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    public List<Category> getAllCategories(String name) {
+    public List<Category> getAllCategories() {
         return List.of();
     }
 
@@ -45,6 +45,7 @@ public class CategoryServiceImpl implements CategoryService{
         return Optional.of(category).filter(c -> !categoryRepository.existsByName(c.getName()))
                 .map(categoryRepository :: save).orElseThrow(()-> new AlreadyExistsException(category.getName()+" already exists"));
     }
+
 
     @Override
     public Category updateCategory(Category category,Long Id) {

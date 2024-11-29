@@ -3,9 +3,12 @@ package com.plusplus.etherealevecreations.service.product;
 import com.plusplus.etherealevecreations.entity.Product;
 import com.plusplus.etherealevecreations.request.AddProductRequest;
 import com.plusplus.etherealevecreations.request.ProductUpdateRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public interface ProductService {
 
     Product addProduct(AddProductRequest product);
