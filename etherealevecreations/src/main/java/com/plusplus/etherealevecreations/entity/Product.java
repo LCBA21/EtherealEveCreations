@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -28,9 +28,9 @@ public class Product {
     @JsonIgnoreProperties({"products"}) // Avoid circular references
     private Category category;
 
-
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<Image> images;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties({"product"}) // Avoid circular references
+    private List<Image> images = new ArrayList<>();
 
     public Product(String name, String brand, BigDecimal price, int quantity, String description, Category category) {
         this.name = name;
@@ -40,5 +40,4 @@ public class Product {
         this.description = description;
         this.category = category;
     }
-
 }
