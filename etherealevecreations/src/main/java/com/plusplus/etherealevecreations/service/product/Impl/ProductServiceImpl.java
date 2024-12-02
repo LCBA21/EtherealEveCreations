@@ -31,7 +31,6 @@ public class ProductServiceImpl  implements ProductService {
     @Override
     public Product addProduct(AddProductRequest request) {
 
-            //check if the category is found i the DB
 
         Category category= Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
                 .orElseGet(() ->{
@@ -67,22 +66,25 @@ public class ProductServiceImpl  implements ProductService {
 
     }
 
-    private Product createProduct(AddProductRequest request, Category category){
-        return  new Product(
+    private Product createProduct(AddProductRequest request, Category category) {
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setBrand(request.getBrand());
+        product.setPrice(request.getPrice());
+        product.setQuantity(request.getQuantity());
+        product.setDescription(request.getDescription());
 
-                request.getName(),
-                request.getBrand(),
-                request.getPrice(),
-                request.getQuantity(),
-                request.getDescription(),
-                category
-        );
+        // Set category with name and associate the product with the category
+        category.getProducts().add(product);
+        product.setCategory(category);
 
+        return product;
     }
+
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return productRepository.findAll();
     }
 
     @Override
