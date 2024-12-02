@@ -9,6 +9,7 @@ import com.plusplus.etherealevecreations.response.ApiResponse;
 import com.plusplus.etherealevecreations.service.image.ImageService;
 import com.plusplus.etherealevecreations.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +25,15 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ResponseEntity<ApiResponse> getAllProducts(){
-        List<Product> products = productService.getAllProducts();
-        return ResponseEntity.ok(new ApiResponse("Success",products));
+    @GetMapping("/getAllProducts")
+    public ResponseEntity<ApiResponse> getAllProducts() {
+        try {
+            List<Product> products = productService.getAllProducts();
+            return ResponseEntity.ok(new ApiResponse("Products fetched successfully", products));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Failed to fetch products", e.getMessage()));
+        }
     }
 
 
@@ -61,7 +68,7 @@ public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId){
 
 
 
-    @PostMapping("/add")
+    @PostMapping("/update")
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody AddProductRequest product){
 
 
