@@ -10,11 +10,13 @@ import com.plusplus.etherealevecreations.request.AddProductRequest;
 import com.plusplus.etherealevecreations.request.ProductUpdateRequest;
 import com.plusplus.etherealevecreations.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
+
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +55,12 @@ public class ProductServiceImpl  implements ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product not found with ID: " + id));
     }
 
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+
     private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request){
         existingProduct.setName(request.getName());
         existingProduct.setBrand(request.getBrand());
@@ -82,10 +90,7 @@ public class ProductServiceImpl  implements ProductService {
     }
 
 
-    @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
-    }
+
 
     @Override
     public Product getProductById(Long id) {
