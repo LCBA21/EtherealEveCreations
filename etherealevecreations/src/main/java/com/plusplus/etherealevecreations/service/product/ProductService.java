@@ -3,6 +3,8 @@ package com.plusplus.etherealevecreations.service.product;
 import com.plusplus.etherealevecreations.entity.Product;
 import com.plusplus.etherealevecreations.request.AddProductRequest;
 import com.plusplus.etherealevecreations.request.ProductUpdateRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +15,6 @@ public interface ProductService {
 
     Product addProduct(AddProductRequest product);
     Product updateProduct(ProductUpdateRequest product, Long Id);
-
     List<Product> getAllProducts();
     Product getProductById(Long id);
     void deleteProductById(Long id);
@@ -24,10 +25,4 @@ public interface ProductService {
     List<Product> getProductsByName(String name);
     List<Product> getProductsByBrandAndName(String brand,String name);
     Long countProductsByBrandAndName(String brand,String name);
-
-
-
-
-
-
 }

@@ -1,3 +1,4 @@
+
 package com.plusplus.etherealevecreations.controller;
 
 
@@ -48,8 +49,6 @@ public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId){
     }
 
 }
-
-
 
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product){
@@ -127,6 +126,26 @@ public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId){
             return  ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
 
         }
+    }
+
+
+    @GetMapping("/product/by-brand")
+    public ResponseEntity<ApiResponse> findHairByBrand(@RequestParam String brand){
+        try {
+            List<Product> products=productService.getProductsByBrand(brand);
+            if(products.isEmpty()){
+                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse("NO products found",null));
+            }
+            return ResponseEntity.ok(new ApiResponse("Success",products));
+
+
+        } catch (Exception e) {
+
+
+            return ResponseEntity.ok(new ApiResponse(e.getMessage(),null));
+        }
+
+
     }
 
 

@@ -6,10 +6,11 @@ import com.plusplus.etherealevecreations.entity.Product;
 import com.plusplus.etherealevecreations.exceptions.ResourceNotFoundException;
 import com.plusplus.etherealevecreations.repository.ImageRepository;
 import com.plusplus.etherealevecreations.service.product.ProductService;
-import jakarta.persistence.Id;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
@@ -23,7 +24,6 @@ import java.util.List;
 public class ImageServiceImpl implements ImageService{
 
     private final  ImageRepository imageRepository;
-    private final  ImageService imageService;
     private final ProductService productService;
 
 
