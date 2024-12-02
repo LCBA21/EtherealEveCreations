@@ -28,4 +28,11 @@ public class Image {
     @JoinColumn(name = "product_id")
     private Product product;
 
+    public Image(String fileName,String fileType,Blob image,String downloadUrl) {
+        this.fileName=fileName;
+        this.fileType=fileType;
+        this.image=image;
+        this.downloadUrl=downloadUrl;
+    }
+
 }
