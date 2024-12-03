@@ -1,15 +1,12 @@
 package com.plusplus.etherealevecreations.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Data
 public class StripeResponse {
 
     private String status;

@@ -7,12 +7,14 @@ import com.plusplus.etherealevecreations.repository.CartRepository;
 import com.plusplus.etherealevecreations.service.cart.CartService;
 import com.plusplus.etherealevecreations.service.cartitem.CartItemService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/${api.prefix}/cart-items")
+@RequestMapping("/api/cart-items")
+@Slf4j
 public class CartItemController {
 
     private final CartItemService cartItemService;
@@ -23,6 +25,7 @@ public class CartItemController {
             @RequestParam Long productId,
             @RequestParam int quantity) {
         cartItemService.addItemToCart(cartId, productId, quantity);
+        log.info("Request received: cartId={}, productId={}, quantity={}", cartId, productId, quantity);
         return ResponseEntity.ok("Item added to cart successfully.");
     }
 

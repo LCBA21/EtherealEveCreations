@@ -11,10 +11,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequest {
-
     private String name;
     private String currency;
-    private BigDecimal price;
+    private BigDecimal price; // Should be in major units (e.g., 10.50 USD)
     private int quantity;
-
 }
