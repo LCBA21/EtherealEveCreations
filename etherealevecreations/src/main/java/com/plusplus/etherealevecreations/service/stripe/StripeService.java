@@ -35,6 +35,24 @@ public class StripeService {
                 .build();
 
 
+        Session session=null;
+
+        try {
+            session=Session.create(params)
+
+        }catch (StripException e){
+            System.out.println(e.getMessage());
+        }
+
+
+        return StripeResponse.builder()
+                .status("SUCCESS")
+                .message("Payment session created")
+                .sessionId(session.getId())
+                .sessionUrl(session.getUrl)
+                .build();
+
+
 
 
 
