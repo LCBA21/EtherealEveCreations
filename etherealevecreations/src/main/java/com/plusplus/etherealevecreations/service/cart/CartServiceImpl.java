@@ -44,4 +44,21 @@ public class CartServiceImpl  implements CartService{
 
         return cart.getTotalAmount();
     }
+
+    @Override
+    public Cart createCart() {
+        // Create a new instance of Cart with default values
+        Cart cart = new Cart();
+        // Save the new cart instance to the database
+        return cartRepository.save(cart);
+    }
+
+    @Override
+    public void deleteCart(Long cartId) {
+        // Check if the cart exists before deleting
+        if (!cartRepository.existsById(cartId)) {
+            throw new ResourceNotFoundException("Cart not found with ID: " + cartId);
+        }
+        cartRepository.deleteById(cartId);
+    }
 }

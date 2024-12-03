@@ -15,29 +15,25 @@ import java.util.Set;
 @NoArgsConstructor
 public class CartItem {
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private int quantity;
 
-    private BigDecimal unitprice=BigDecimal.ZERO;
-    private BigDecimal totalprice=BigDecimal.ZERO;
+    private BigDecimal unitprice = BigDecimal.ZERO;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
+    private BigDecimal totalprice = BigDecimal.ZERO;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
-    public void setTotalPrice(){
-        this.totalprice=this.unitprice.multiply(new BigDecimal(quantity));
-
-
+    public void setTotalPrice() {
+        this.totalprice = this.unitprice.multiply(BigDecimal.valueOf(this.quantity));
     }
-
 }
