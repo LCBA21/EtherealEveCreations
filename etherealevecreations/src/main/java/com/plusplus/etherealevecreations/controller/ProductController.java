@@ -67,25 +67,25 @@ public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId){
 
 
 
-    @PostMapping("/update")
-    public ResponseEntity<ApiResponse> updateProduct(@RequestBody AddProductRequest product){
-
-
-        try {
-            Product Newproduct=productService.addProduct(product);
-            return ResponseEntity.ok(new ApiResponse("Added Product",Newproduct));
-
-
-        } catch (ResourceNotFoundException e) {
-            return  ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
-
-        }
-    }
+//    @PostMapping("/update")
+//    public ResponseEntity<ApiResponse> updateProduct(@RequestBody AddProductRequest product){
+//
+//
+//        try {
+//            Product Newproduct=productService.addProduct(product);
+//            return ResponseEntity.ok(new ApiResponse("Added Product",Newproduct));
+//
+//
+//        } catch (ResourceNotFoundException e) {
+//            return  ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+//
+//        }
+//    }
 
 
 
     @PutMapping("/UpdateProduct/{productId}")
-    public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request, Long productId){
+    public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest request,@PathVariable Long productId){
 
         try {
             Product updatedProduct=productService.updateProduct(request,productId);
@@ -147,13 +147,6 @@ public ResponseEntity<ApiResponse> getProductById(@PathVariable Long productId){
 
 
     }
-
-
-
-
-
-
-
 
 }
 
