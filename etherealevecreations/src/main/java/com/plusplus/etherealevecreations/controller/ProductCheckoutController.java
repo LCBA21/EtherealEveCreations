@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/PaymentGateway")
+@RequestMapping("/api/PaymentGateway")
 public class ProductCheckoutController {
 
     private final StripeService stripeService;
@@ -27,4 +27,5 @@ public class ProductCheckoutController {
                 status(HttpStatus.OK)
                 .body(stripeResponse);
     }
+
 }

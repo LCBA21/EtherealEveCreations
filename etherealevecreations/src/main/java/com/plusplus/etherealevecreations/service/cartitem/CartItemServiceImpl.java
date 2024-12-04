@@ -4,9 +4,11 @@ package com.plusplus.etherealevecreations.service.cartitem;
 import com.plusplus.etherealevecreations.entity.Cart;
 import com.plusplus.etherealevecreations.entity.CartItem;
 import com.plusplus.etherealevecreations.entity.Product;
+import com.plusplus.etherealevecreations.exceptions.ProductNotFoundException;
 import com.plusplus.etherealevecreations.exceptions.ResourceNotFoundException;
 import com.plusplus.etherealevecreations.repository.CartItemRepository;
 import com.plusplus.etherealevecreations.repository.CartRepository;
+import com.plusplus.etherealevecreations.repository.ProductRepository;
 import com.plusplus.etherealevecreations.service.cart.CartService;
 import com.plusplus.etherealevecreations.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -21,30 +23,31 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartRepository cartRepository;
     private final ProductService productService;
     private final CartService cartService;
+    private final ProductRepository productRepository;
 
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
         Cart cart = cartService.getCart(cartId);
-        Product product = productService.getProductById(productId);
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
 
-        CartItem cartItem = cart.getItems().stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
-                .findFirst()
-                .orElseGet(() -> {
-                    CartItem newItem = new CartItem();
-                    newItem.setCart(cart);
-                    newItem.setProduct(product);
-                    newItem.setUnitprice(product.getPrice());
-                    return newItem;
-                });
+        CartItem cartItem = new CartItem();
+        cartItem.setCart(cart);
+        cartItem.setProduct(product);
+        cartItem.setQuantity(quantity);
+        cartItem.setUnitprice(product.getPrice());  // Set unit price
 
-        cartItem.setQuantity(cartItem.getQuantity() + quantity);
+        // Now we call setTotalPrice without passing any arguments, as it will calculate totalprice internally
         cartItem.setTotalPrice();
-        cart.addItem(cartItem);
 
-        cartItemRepository.save(cartItem);
-        cartRepository.save(cart);
+        cart.getItems().add(cartItem);  // Add the item to the cart's items list
+        cart.setTotalAmount(cart.getTotalAmount().add(cartItem.getTotalprice()));  // Update total amount of the cart
+
+        cartItemRepository.save(cartItem);  // Save the cart item to the repository
+        cartRepository.save(cart);  // Save the updated cart to the repository
     }
+
+
 
     @Override
     public void removeItemFromCart(Long cartId, Long productId) {

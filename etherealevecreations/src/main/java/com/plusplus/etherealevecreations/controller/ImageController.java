@@ -24,7 +24,7 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
-@RequestMapping("${api.prefix}/images")
+@RequestMapping("/api/images")
 @RequiredArgsConstructor
 public class ImageController {
 

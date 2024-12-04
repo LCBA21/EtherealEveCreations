@@ -4,6 +4,7 @@ package com.plusplus.etherealevecreations.controller;
 import com.plusplus.etherealevecreations.entity.Cart;
 import com.plusplus.etherealevecreations.repository.CartRepository;
 import com.plusplus.etherealevecreations.service.cart.CartService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,12 @@ public class CartController {
         return ResponseEntity.ok("Cart deleted successfully.");
     }
 
+    @Transactional
+    @PutMapping("clearCart/{cartId}")
+    public ResponseEntity<String> clearCart(@PathVariable Long cartId) {
+        cartService.clearCart(cartId);
+        return ResponseEntity.ok("Cart cleared successfully.");
+    }
 
 }
 

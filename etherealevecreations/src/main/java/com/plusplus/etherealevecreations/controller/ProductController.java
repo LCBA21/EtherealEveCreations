@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("${api.prefix}/products")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductService productService;

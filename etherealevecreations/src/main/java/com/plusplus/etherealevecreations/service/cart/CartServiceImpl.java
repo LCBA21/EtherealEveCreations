@@ -31,12 +31,12 @@ public class CartServiceImpl  implements CartService{
 
     @Override
     public void clearCart(Long id) {
-        Cart cart=getCart(id);
-        cartItemRepository.deleteByCartId(id);
-        cart.getItems().clear();
-        cartRepository.deleteById(id);
-
+        Cart cart = getCart(id);
+        cartItemRepository.deleteByCartId(id);  // Clears all items from the cart
+        cart.getItems().clear();  // Clears the in-memory items list
+        cart.setTotalAmount(BigDecimal.ZERO);  // Resets the total amount to 0
     }
+
 
     @Override
     public BigDecimal getTotalPrice(Long id) {
@@ -61,4 +61,8 @@ public class CartServiceImpl  implements CartService{
         }
         cartRepository.deleteById(cartId);
     }
+
+
+
+
 }

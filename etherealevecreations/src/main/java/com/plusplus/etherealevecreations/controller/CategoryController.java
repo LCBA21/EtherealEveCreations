@@ -17,7 +17,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.*;
 
 @RestController
-@RequestMapping("${api.prefix}/categories")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
@@ -98,7 +98,4 @@ public class CategoryController {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }
     }
-
-
-
 }

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Set;
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -39,6 +38,7 @@ public class CartItem {
     @JsonBackReference //prevent nested json object
     private Cart cart;
 
+    // Modify the method to calculate total price internally
     public void setTotalPrice() {
         this.totalprice = this.unitprice.multiply(BigDecimal.valueOf(this.quantity));
     }
