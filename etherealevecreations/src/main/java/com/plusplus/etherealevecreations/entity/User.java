@@ -1,6 +1,7 @@
 package com.plusplus.etherealevecreations.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class User {
     private Cart cart;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference // Prevent circular reference
     private List<Order> orders = new ArrayList<>();
 
     public User(String firstName, String lastName, String email, String password, String phoneNumber) {

@@ -9,7 +9,10 @@ import com.plusplus.etherealevecreations.exceptions.ResourceNotFoundException;
 import com.plusplus.etherealevecreations.exceptions.UserNotFoundException;
 import com.plusplus.etherealevecreations.repository.ProductRepository;
 import com.plusplus.etherealevecreations.repository.UserRepository;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,13 +25,42 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
+    private final JavaMailSender mailSender;
 
 
-//Implement Exception handling for users with the same email address(should not be possible)
+
+
+    //Implement Exception handling for users with the same email address(should not be possible)
     @Override
     public User registerUser(String firstName, String lastName, String email, String password, String phoneNumber) {
         User user=new User(firstName, lastName,email,password,phoneNumber);
+
+        try {
+            sendWelcomeEmail(user.getEmail(), user.getFirstName());
+        } catch (Exception e) {
+            // Handle email sending failure gracefully (optional: log the error)
+            throw new RuntimeException("User registered, but email could not be sent.", e);
+        }
         return userRepository.save(user);
+
+    }
+
+
+
+    // Method to send a welcome email
+    private void sendWelcomeEmail(String email, String name) throws Exception {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(email);
+        helper.setSubject("Welcome to Beauty By Renee");
+
+        // HTML content of the email
+        String emailContent = "<h1>Welcome, " + name + "!</h1>"
+                + "<p>Thank you for registering with Beauty By Renee(BBR). We're excited to have you onboard!</p>";
+        helper.setText(emailContent, true);
+
+        mailSender.send(message);
     }
 
     @Override
