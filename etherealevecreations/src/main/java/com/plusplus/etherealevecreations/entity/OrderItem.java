@@ -17,23 +17,22 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    private int quantity;
-    private BigDecimal price;
-    private BigDecimal totalprice;
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    @JsonBackReference // Prevent circular reference
-    private Order order;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    public OrderItem(int quantity, Product product, Order order, BigDecimal price,BigDecimal totalprice) {
+
+    private int quantity;
+    private BigDecimal Price;
+
+    public OrderItem(Order order, int quantity, Product product, BigDecimal price) {
+        this.order = order;
         this.quantity = quantity;
         this.product = product;
-        this.order = order;
-        this.price = price;
-        this.totalprice=totalprice;
+        Price = price;
     }
 }

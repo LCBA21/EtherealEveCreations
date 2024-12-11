@@ -26,15 +26,14 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private String phoneNumber;
+    private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private Cart cart;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference // Prevent circular reference
-    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Order> orders;
 
     public User(String firstName, String lastName, String email, String password, String phoneNumber) {
         this.firstName = firstName;
@@ -44,4 +43,6 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.cart = new Cart(); // Automatically associate a new cart with the user
     }
+
+
 }

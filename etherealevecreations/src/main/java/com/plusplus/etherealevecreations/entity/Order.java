@@ -32,11 +32,9 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore // Prevent recursive reference to User in Order JSON response
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference // Properly handle bidirectional relationship
     private Set<OrderItem> orderItemSet = new HashSet<>();
 
 }

@@ -17,6 +17,7 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Cart {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -28,6 +29,12 @@ public class Cart {
     @EqualsAndHashCode.Exclude // Avoid cyclic dependency
     @JsonManagedReference //prevent nested json object
     private Set<CartItem> items = new HashSet<>();
+
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     public void addItem(CartItem item) {
         this.items.add(item);
