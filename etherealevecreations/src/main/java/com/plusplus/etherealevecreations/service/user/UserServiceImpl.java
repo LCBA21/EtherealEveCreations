@@ -34,6 +34,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public User registerUser(String firstName, String lastName, String email, String password, String phoneNumber) {
         User user=new User(firstName, lastName,email,password,phoneNumber);
+        Cart cart = new Cart();
+        user.setCart(cart);
+
 
         try {
             sendWelcomeEmail(user.getEmail(), user.getFirstName());
@@ -44,6 +47,16 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(user);
 
     }
+
+//
+//    public User registerUser(User user) {
+//        Cart cart = new Cart();
+//        cart.setUser(user);
+//        user.setCart(cart);
+//        userRepository.save(user); // This saves both the user and the cart due to cascading
+//        return user;
+//    }
+
 
 
 

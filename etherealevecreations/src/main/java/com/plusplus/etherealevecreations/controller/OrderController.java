@@ -38,7 +38,7 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<ApiResponse<OrderDTO>> getOrder(@PathVariable Long orderId) {
         try {
-            Order order = orderService.getOrder(orderId);
+            OrderDTO order = orderService.getOrder(orderId);
             return ResponseEntity.ok(new ApiResponse(
                     "Order retrieved successfully", order));
         } catch (ResourceNotFoundException e) {

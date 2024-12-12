@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id; // Use camelCase
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -27,12 +27,12 @@ public class OrderItem {
     private Product product;
 
     private int quantity;
-    private BigDecimal Price;
+    private BigDecimal price;
 
-    public OrderItem(Order order, int quantity, Product product, BigDecimal price) {
+    public OrderItem(Order order, Product product, int quantity, BigDecimal price) {
         this.order = order;
         this.quantity = quantity;
         this.product = product;
-        Price = price;
+        this.price = price;
     }
 }

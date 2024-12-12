@@ -2,6 +2,7 @@ package com.plusplus.etherealevecreations.service.order;
 
 
 import com.plusplus.etherealevecreations.dto.OrderDTO;
+import com.plusplus.etherealevecreations.dto.OrderItemDTO;
 import com.plusplus.etherealevecreations.entity.*;
 import com.plusplus.etherealevecreations.exceptions.ResourceNotFoundException;
 import com.plusplus.etherealevecreations.num.OrderStatus;
@@ -49,6 +50,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+
     private Order createOrder(Cart cart) {
         Order order = new Order();
         order.setUser(cart.getUser());
@@ -74,44 +76,46 @@ public class OrderServiceImpl implements OrderService {
         }).toList();
     }
 
+
     private BigDecimal calculateTotalAmount(List<OrderItem> orderItemList) {
         return orderItemList.stream()
                 .map(item -> item.getPrice().multiply(new BigDecimal(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+
     @Override
-    public Order getOrder(Long orderId) {
-        // Fetch the order
+    public OrderDTO getOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not Found"));
-
-        // Convert to DTO and return
         return mapToOrderDTO(order);
     }
 
-//    private OrderDTO mapToOrderDTO(Order order) {
-//        // Map Order to OrderDTO
-//        OrderDTO orderDTO = new OrderDTO();
-//        orderDTO.setId(order.getId());
-//        orderDTO.setUserId(order.getUser().getId());
-//        orderDTO.setOrderDate(order.getOrderDate().atStartOfDay());
-//        orderDTO.setTotalAmount(order.getTotalAmount());
-//        orderDTO.setStatus(order.getOrderStatus().toString());
-//
-//        // Map OrderItems to OrderItemDTOs
-//        List<OrderItemDTO> orderItems = order.getOrderItemSet().stream()
-//                .map(item -> new OrderItemDTO(
-//                        item.getProduct().getId(),
-//                        item.getProduct().getName(),
-//                        item.getQuantity(),
-//                        item.getPrice()
-//                ))
-//                .toList();
-//        orderDTO.setItems(orderItems);
-//
-//        return orderDTO;
-//    }
+
+
+    private OrderDTO mapToOrderDTO(Order order) {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(order.getOrderId());
+        orderDTO.setUserId(order.getUser().getId());
+        orderDTO.setOrderDate(order.getOrderDate().atStartOfDay());
+        orderDTO.setTotalAmount(order.getTotalAmount());
+        orderDTO.setStatus(order.getOrderStatus().toString());
+
+        // Map OrderItems to OrderItemDTOs
+        List<OrderItemDTO> orderItems = order.getOrderItemSet().stream()
+                .map(item -> new OrderItemDTO(
+                        item.getId(), // Map the OrderItem ID
+                        item.getProduct().getId(),
+                        item.getProduct().getName(),
+                        item.getQuantity(),
+                        item.getPrice()
+                ))
+                .toList();
+        orderDTO.setItems(orderItems);
+
+        return orderDTO;
+    }
+
 
 
 }

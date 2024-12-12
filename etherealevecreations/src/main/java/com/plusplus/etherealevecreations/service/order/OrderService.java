@@ -8,5 +8,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OrderService {
     OrderDTO placeOrder(Long userId);
-    Order getOrder(Long orderId);
+    OrderDTO getOrder(Long orderId);
 }
